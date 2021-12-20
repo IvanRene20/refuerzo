@@ -20,14 +20,12 @@ class DocenteService {
     fun save(docente: Docente): Docente {
         try {
 
-            if (docente.nombres.equals("")) {
-                if (docente.apellidos.equals("")) {
-                    throw Exception("Campos en Blanco")
-                }
-            } else {
-                return docenteRepository.save(docente)
+            docente.nombres?.trim()?.isEmpty()
+                ?: throw java.lang.Exception("nombres no puede estar en blanco")
 
-            }
+            docente.apellidos?.trim()?.isEmpty()
+                ?: throw java.lang.Exception("apellidos no puede estare en blanco")
+
         }
         catch (ex: Exception) {
             throw ResponseStatusException(

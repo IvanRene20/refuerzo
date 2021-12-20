@@ -1,7 +1,6 @@
 package com.rene.RefuerzoApi.service
 
 import com.rene.RefuerzoApi.model.Asignatura
-import com.rene.RefuerzoApi.model.Estudiante
 import com.rene.RefuerzoApi.repository.AsignaturaRepository
 import com.rene.RefuerzoApi.repository.DocenteRepository
 import com.rene.RefuerzoApi.repository.EstudianteRepository
@@ -36,12 +35,8 @@ class AsignaturaService {
             docenteRepository.findById(asignatura.docenteId)
                 ?: throw Exception("docente no existe")
 
-            if (asignatura.materia.equals("")) {
-                throw Exception("Materia en blanco")
-            } else {
-                return asignaturaRepository.save(asignatura)
-
-            }
+            asignatura.materia?.trim()?.isEmpty()
+                ?: throw java.lang.Exception("Materia no puede estar en blanco")
 
         }
         catch (ex: Exception) {
@@ -49,7 +44,7 @@ class AsignaturaService {
                 HttpStatus.NOT_FOUND,  ex.message)
 
         }
-
+        return asignaturaRepository.save(asignatura)
 
 
     }

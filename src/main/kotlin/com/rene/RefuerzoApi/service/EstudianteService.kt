@@ -22,26 +22,20 @@ class EstudianteService {
     fun save(estudiante: Estudiante): Estudiante {
         try {
 
-         if (estudiante.nombres.equals("")  ) {
-                 throw Exception("Por favor llene los espacios en blanco")
+            estudiante.nombres?.trim()?.isEmpty()
+                ?: throw java.lang.Exception("nombre no puede ser vacio")
 
-        }
-            if (estudiante.apellidos.equals("") ) {
-                throw Exception("Por favor llene los espacios en blanco")
 
-    }
-            else {
-        return estudianteRepository.save(estudiante)
-    }
+            estudiante.apellidos?.trim()?.isEmpty()
+                ?: throw java.lang.Exception("apellidos no puede ser vacio")
 
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             throw ResponseStatusException(
                 HttpStatus.NOT_FOUND, ex.message
             )
 
         }
-
+    return estudianteRepository.save(estudiante)
     }
         fun update(estudiante: Estudiante): Estudiante {
             return estudianteRepository.save(estudiante)
