@@ -2,6 +2,8 @@ package com.rene.RefuerzoApi.Service
 
 import com.google.gson.Gson
 import com.rene.RefuerzoApi.model.Asignatura
+import com.rene.RefuerzoApi.model.Docente
+import com.rene.RefuerzoApi.model.Estudiante
 import com.rene.RefuerzoApi.repository.AsignaturaRepository
 import com.rene.RefuerzoApi.repository.DocenteRepository
 import com.rene.RefuerzoApi.repository.EstudianteRepository
@@ -32,17 +34,17 @@ class AsignaturaServiceTest {
     val jsonString = File("./src/test/resources/Asignatura/crearAsignatura.json").readText(Charsets.UTF_8)
     val asignaturaMock = Gson().fromJson(jsonString, Asignatura::class.java)
 
-    val jsonString = File("./src/test/resources/Docente/crearDocente.json").readText(Charsets.UTF_8)
-    val docenteMock = Gson().fromJson(jsonString, Docente::class.java)
+    val jsonString1 = File("./src/test/resources/Docente/crearDocente.json").readText(Charsets.UTF_8)
+    val docenteMock = Gson().fromJson(jsonString1, Docente::class.java)
 
-    val jsonString = File("./src/test/resources/Estudiante/createEstudiante.json").readText(Charsets.UTF_8)
-    val estudianteMock = Gson().fromJson(jsonString, Estudiante::class.java)
+    val jsonString2 = File("./src/test/resources/Estudiante/createEstudiante.json").readText(Charsets.UTF_8)
+    val estudianteMock = Gson().fromJson(jsonString2, Estudiante::class.java)
 
     @Test
     fun createAsignatura(){
 
-        Mockito.`when`(estudianteRepository.findById(asignaturaMock.estudiante_id)).thenReturn(estudianteMock)
-        Mockito.`when`(docenteRepository.findById(asignaturaMock.docente_id)).thenReturn(docenteMock)
+        Mockito.`when`(estudianteRepository.findById(asignaturaMock.estudianteId)).thenReturn(estudianteMock)
+        Mockito.`when`(docenteRepository.findById(asignaturaMock.docenteId)).thenReturn(docenteMock)
         val response = asignaturaService.save(asignaturaMock)
         Assertions.assertEquals(response.id, asignaturaMock.id)
         Assertions.assertEquals(response.materia, asignaturaMock.materia)
