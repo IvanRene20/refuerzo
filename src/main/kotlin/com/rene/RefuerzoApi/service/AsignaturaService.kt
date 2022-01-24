@@ -35,7 +35,7 @@ class AsignaturaService {
             docenteRepository.findById(asignatura.docenteId)
                 ?: throw Exception("docente no existe")
 
-            asignatura.materia?.trim()?.isEmpty()
+            asignatura.materia?.takeIf { it.trim().isNotEmpty() }
                 ?: throw java.lang.Exception("Materia no puede estar en blanco")
 
         }
