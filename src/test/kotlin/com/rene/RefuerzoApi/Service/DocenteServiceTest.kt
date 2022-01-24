@@ -25,6 +25,7 @@ class DocenteServiceTest {
     val docenteMock = Gson().fromJson(jsonString, Docente::class.java)
 
 
+
     @Test
     fun validateCedulaEcu(){
         val response = docenteService.validateCedula("0105109268")
@@ -56,7 +57,7 @@ class DocenteServiceTest {
     @Test
     fun createDocenteFailedWhenNombresIsEmpty(){
         Assertions.assertThrows(Exception::class.java) {
-            docenteMock.apply { nombres=" "}
+            docenteMock.apply { nombres="   "}
           Mockito.`when`(docenteRepository.save(Mockito.any(Docente::class.java))).thenReturn(docenteMock)
             docenteService.save(docenteMock)
         }
