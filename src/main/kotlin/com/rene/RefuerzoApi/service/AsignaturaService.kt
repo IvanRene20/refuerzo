@@ -51,7 +51,15 @@ class AsignaturaService {
 
 
     fun update(asignatura: Asignatura): Asignatura {
-        return asignaturaRepository.save(asignatura)
+        try {
+            asignaturaRepository.findById(asignatura.id)
+                ?: throw Exception("no se encuentra el id asignatura")
+            return asignaturaRepository.save(asignatura)
+
+        }catch (ex:Exception){
+            throw Exception()
+        }
+
     }
     fun updateDescription (asignatura: Asignatura):Asignatura {
         try {
@@ -72,9 +80,16 @@ class AsignaturaService {
     }
 
 
-    fun delete (id:Long): Boolean{
-        asignaturaRepository.deleteById(id)
-        return true
+    fun delete (id:Long?): Boolean{
+        try {
+            asignaturaRepository.findById(id)
+                ?: throw Exception("no existe el id")
+            asignaturaRepository.deleteById(id!!)
+            return true
+        }catch (ex:Exception){
+            throw Exception()
+        }
+
     }
 
 }

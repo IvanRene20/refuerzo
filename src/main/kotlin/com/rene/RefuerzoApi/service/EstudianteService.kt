@@ -38,7 +38,14 @@ class EstudianteService {
     return estudianteRepository.save(estudiante)
     }
         fun update(estudiante: Estudiante): Estudiante {
-            return estudianteRepository.save(estudiante)
+            try {
+                estudianteRepository.findById(estudiante.id)
+                    ?: throw Exception()
+                return estudianteRepository.save(estudiante)
+            }catch (ex:Exception){
+                throw Exception()
+            }
+
         }
 
         fun updateDescription(estudiante: Estudiante): Estudiante {
@@ -50,9 +57,16 @@ class EstudianteService {
             return estudianteRepository.save(estudiante)
         }
 
-        fun delete(id: Long): Boolean {
-            estudianteRepository.deleteById(id)
-            return true
+        fun delete(id: Long?): Boolean {
+            try {
+                estudianteRepository.findById(id)
+                    ?: throw Exception("no existe el id")
+                estudianteRepository.deleteById(id!!)
+                return true
+            }catch (ex:Exception){
+                throw Exception()
+            }
+
         }
 
     fun WordSize(nombres: String?):Boolean {

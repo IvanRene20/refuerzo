@@ -41,7 +41,15 @@ class DocenteService {
 
     }
     fun update( docente: Docente): Docente {
-        return docenteRepository.save(docente)
+        try {
+            docenteRepository.findById(docente.id)
+                ?: throw Exception()
+            return docenteRepository.save(docente)
+
+        }catch (ex:Exception) {
+            throw Exception()
+        }
+
     }
     fun updateDescription (docente: Docente): Docente {
         val response = docenteRepository.findById(docente.id)
@@ -51,9 +59,16 @@ class DocenteService {
         }
         return docenteRepository.save(docente)
     }
-    fun delete (id:Long): Boolean{
-       docenteRepository.deleteById(id)
-        return true
+    fun delete (id:Long?): Boolean{
+        try {
+            docenteRepository.findById(id)
+                ?: throw Exception("NO Existe el Id")
+            docenteRepository.deleteById(id!!)
+            return true
+        }catch (ex:Exception){
+            throw Exception()
+        }
+
     }
 
     fun validateCedula(cedula:String): Boolean{

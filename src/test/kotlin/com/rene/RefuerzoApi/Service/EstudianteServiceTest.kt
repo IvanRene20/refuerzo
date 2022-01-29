@@ -1,6 +1,7 @@
 package com.rene.RefuerzoApi.Service
 
 import com.google.gson.Gson
+import com.rene.RefuerzoApi.model.Docente
 import com.rene.RefuerzoApi.model.Estudiante
 import com.rene.RefuerzoApi.repository.EstudianteRepository
 import com.rene.RefuerzoApi.service.EstudianteService
@@ -81,11 +82,71 @@ class EstudianteServiceTest {
     @Test
     fun createEstudianteFailedWhenApellidosIsEmpty(){
         Assertions.assertThrows(Exception::class.java) {
-            EstudianteMock.apply { apellidos=" sd"}
+            EstudianteMock.apply { apellidos=" "}
             Mockito.`when`(estudianteRepository.save(Mockito.any(Estudiante::class.java))).thenReturn(EstudianteMock)
             estudianteService.save(EstudianteMock)
         }
 
+    }
+    val returnObject:Estudiante = Estudiante().apply{
+        id = 1
+        nombres = "rene Perez"
+        apellidos = "perez perez"
+    }
+    val  newObject:Estudiante = Estudiante().apply {
+        id = 1
+        nombres = "rene Perez"
+        apellidos = "perez perez"
+    }
+
+    @Test
+    fun updateIsCorrect(){
+        Mockito.`when`(estudianteRepository.findById(newObject.id)).thenReturn(returnObject)
+        Mockito.`when`(estudianteRepository.save(Mockito.any(Estudiante::class.java))).thenReturn(returnObject)
+        val response = estudianteService.update(newObject)
+        Assertions.assertEquals(response.id, newObject.id)
+    }
+
+    @Test
+    fun updateIsFailedWhen(){
+        Assertions.assertThrows(Exception::class.java) {
+            Mockito.`when`(estudianteRepository.findById(newObject.id)).thenReturn(null)
+            Mockito.`when`(estudianteRepository.save(Mockito.any(Estudiante::class.java))).thenReturn(returnObject)
+            val response = estudianteService.update(newObject)
+            Assertions.assertEquals(response.id, newObject.id)
+        }
+    }
+    @Test
+    fun updateDescriptionIsCorrect(){
+        Mockito.`when`(estudianteRepository.findById(newObject.id)).thenReturn(returnObject)
+        Mockito.`when`(estudianteRepository.save(Mockito.any(Estudiante::class.java))).thenReturn(returnObject)
+        val response = estudianteService.updateDescription(newObject)
+        Assertions.assertEquals(response.id, newObject.id)
+    }
+    @Test
+    fun updateDescriptionIsFailedWhen(){
+        Assertions.assertThrows(Exception::class.java) {
+            Mockito.`when`(estudianteRepository.findById(newObject.id)).thenReturn(null)
+            Mockito.`when`(estudianteRepository.save(Mockito.any(Estudiante::class.java))).thenReturn(returnObject)
+            val response = estudianteService.updateDescription(newObject)
+            Assertions.assertEquals(response.id, newObject.id)
+        }
+    }
+    @Test
+    fun delete(){
+        Mockito.`when`(estudianteRepository.findById(newObject.id)).thenReturn(returnObject)
+        Mockito.`when`(estudianteRepository.save(Mockito.any(Estudiante::class.java))).thenReturn(returnObject)
+        val response = estudianteService.delete(newObject.id)
+        Assertions.assertEquals(response, true)
+    }
+    @Test
+    fun deleteIsFailed(){
+        Assertions.assertThrows(Exception::class.java) {
+            Mockito.`when`(estudianteRepository.findById(newObject.id)).thenReturn(null)
+            Mockito.`when`(estudianteRepository.save(Mockito.any(Estudiante::class.java))).thenReturn(returnObject)
+            val response = estudianteService.delete(newObject.id)
+            Assertions.assertEquals(response, true)
+        }
     }
 
 
