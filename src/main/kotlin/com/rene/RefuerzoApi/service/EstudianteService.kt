@@ -39,7 +39,13 @@ class EstudianteService {
     }
         fun update(estudiante: Estudiante): Estudiante {
             try {
-                estudianteRepository.findById(estudiante.id)
+                estudiante.nombres?.takeIf { it.trim().isNotEmpty() }
+                    ?: throw java.lang.Exception("nombre no puede ser vacio")
+
+                estudiante.apellidos?.takeIf { it.trim().isNotEmpty() }
+                    ?: throw java.lang.Exception("apellidos no puede ser vacio")
+
+                                estudianteRepository.findById(estudiante.id)
                     ?: throw Exception()
                 return estudianteRepository.save(estudiante)
             }catch (ex:Exception){
@@ -49,12 +55,21 @@ class EstudianteService {
         }
 
         fun updateDescription(estudiante: Estudiante): Estudiante {
-            val response = estudianteRepository.findById(estudiante.id)
-                ?: throw Exception("No se encuentra el Id")
-            response.apply {
-                this.nombres = estudiante.nombres
+
+            try {
+                estudiante.nombres?.takeIf { it.trim().isNotEmpty() }
+                    ?: throw java.lang.Exception("nombre no puede ser vacio")
+
+                val response = estudianteRepository.findById(estudiante.id)
+                    ?: throw Exception("No se encuentra el Id")
+                response.apply {
+                    this.nombres = estudiante.nombres
+                }
+                return estudianteRepository.save(estudiante)
+            }catch (ex:Exception){
+                throw Exception()
             }
-            return estudianteRepository.save(estudiante)
+
         }
 
         fun delete(id: Long?): Boolean {
