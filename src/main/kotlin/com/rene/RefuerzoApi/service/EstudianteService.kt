@@ -117,6 +117,9 @@ fun calcMultiplication(index:Int, number: Int):Int{
             var total = decena*10 - index
             return total
         }
+    fun validate(): Boolean{
+
+    }
 
 }
 
